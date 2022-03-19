@@ -53,7 +53,7 @@ function Account() {
     return (
       <>
         <div onClick={() => setIsAuthModalVisible(true)}>
-          <p style={styles.text}>Authenticate</p>
+          <p style={styles.text}>Acessar</p>
         </div>
         <Modal
           visible={isAuthModalVisible}
@@ -76,7 +76,7 @@ function Account() {
               fontSize: "20px",
             }}
           >
-            Connect Wallet
+            Conectar Carteira
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
             {connectors.map(({ title, icon, connectorId }, key) => (
@@ -139,7 +139,7 @@ function Account() {
         style={{ fontSize: "16px", fontWeight: "500" }}
         width="400px"
       >
-        Account
+        Minha Carteira
         <Card
           style={{
             marginTop: "10px",
@@ -160,7 +160,7 @@ function Account() {
               rel="noreferrer"
             >
               <SelectOutlined style={{ marginRight: "5px" }} />
-              View on Explorer
+              Ver no explorer
             </a>
           </div>
         </Card>
@@ -180,7 +180,7 @@ function Account() {
             setIsModalVisible(false);
           }}
         >
-          Disconnect Wallet
+          Desconectar carteira
         </Button>
       </Modal>
     </>

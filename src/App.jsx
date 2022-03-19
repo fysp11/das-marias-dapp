@@ -7,8 +7,8 @@ import {
   Redirect,
 } from "react-router-dom";
 import Account from "components/Account/Account";
-import Chains from "components/Chains";
-import TokenPrice from "components/TokenPrice";
+// import Chains from "components/Chains";
+// import TokenPrice from "components/TokenPrice";
 import ERC20Balance from "components/ERC20Balance";
 import ERC20Transfers from "components/ERC20Transfers";
 import DEX from "components/DEX";
@@ -16,7 +16,7 @@ import NFTBalance from "components/NFTBalance";
 import Wallet from "components/Wallet";
 import { Layout, Tabs } from "antd";
 import "antd/dist/antd.css";
-import NativeBalance from "components/NativeBalance";
+// import NativeBalance from "components/NativeBalance";
 import "./style.css";
 import QuickStart from "components/QuickStart";
 import Contract from "components/Contract/Contract";
@@ -70,17 +70,17 @@ const App = ({ isServerInfo }) => {
     <Layout style={{ height: "100vh", overflow: "auto" }}>
       <Router>
         <Header style={styles.header}>
-          <Logo />
+          {/* <Logo /> */}
           <MenuItems />
           <div style={styles.headerRight}>
-            <Chains />
-            <TokenPrice
+            {/* <Chains /> */}
+            {/* <TokenPrice
               address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
               chain="eth"
               image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
               size="40px"
             />
-            <NativeBalance />
+            <NativeBalance /> */}
             <Account />
           </div>
         </Header>
