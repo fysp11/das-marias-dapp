@@ -9,13 +9,13 @@ import {
 import Account from "components/Account/Account";
 // import Chains from "components/Chains";
 // import TokenPrice from "components/TokenPrice";
-import ERC20Balance from "components/ERC20Balance";
 import { Layout } from "antd";
 import "antd/dist/antd.css";
 // import NativeBalance from "components/NativeBalance";
 import "./style.css";
 import Text from "antd/lib/typography/Text";
 import MenuItems from "./components/MenuItems";
+import MyBalance from "components/DasMarias/MyBalance";
 const { Header, Footer } = Layout;
 
 const styles = {
@@ -81,13 +81,13 @@ const App = () => {
         <div style={styles.content}>
           <Switch>
             <Route path="/community">
-              <ERC20Balance />
+              <MyBalance />
             </Route>
             <Route path="/mybalance">
-              <ERC20Balance />
+              <MyBalance />
             </Route>
             <Route path="/ourbank">
-              <ERC20Balance />
+              <MyBalance />
             </Route>
             <Route path="/">
               <Redirect to="/mybalance" />

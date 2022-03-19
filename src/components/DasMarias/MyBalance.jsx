@@ -1,65 +1,60 @@
-import { useMoralis, useERC20Balances } from "react-moralis";
-import { Skeleton, Table } from "antd";
-import { getEllipsisTxt } from "../../helpers/formatters";
+import { useERC20Balances } from "react-moralis";
+import { Skeleton, InputNumber, Button } from "antd";
+import { DownloadOutlined, UploadOutlined } from "@ant-design/icons";
+// import { getEllipsisTxt } from "../../helpers/formatters";
 
-function MyBalance(props) {
+function ERC20Balance(props) {
   const { data: assets } = useERC20Balances(props);
-  const { Moralis } = useMoralis();
+  // const { Moralis } = useMoralis();
 
-  const columns = [
-    {
-      title: "",
-      dataIndex: "logo",
-      key: "logo",
-      render: (logo) => (
-        <img
-          src={logo || "https://etherscan.io/images/main/empty-token.png"}
-          alt="nologo"
-          width="28px"
-          height="28px"
-        />
-      ),
+  // const columns = [
+  //   {
+  //     title: "Balance",
+  //     dataIndex: "balance",
+  //     key: "balance",
+  //     render: (value, item) =>
+  //       parseFloat(Moralis?.Units?.FromWei(value, item.decimals)).toFixed(6),
+  //   },
+  // ];
+
+  const boxProps = {
+    size: "large",
+    style: {
+      width: "100%",
+      maxWidth: "250px",
     },
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      render: (name) => name,
-    },
-    {
-      title: "Symbol",
-      dataIndex: "symbol",
-      key: "symbol",
-      render: (symbol) => symbol,
-    },
-    {
-      title: "Balance",
-      dataIndex: "balance",
-      key: "balance",
-      render: (value, item) =>
-        parseFloat(Moralis?.Units?.FromWei(value, item.decimals)).toFixed(6),
-    },
-    {
-      title: "Address",
-      dataIndex: "token_address",
-      key: "token_address",
-      render: (address) => getEllipsisTxt(address, 5),
-    },
-  ];
+  };
 
   return (
-    <div style={{ width: "65vw", padding: "15px" }}>
-      <h1>💰Token Balances</h1>
+    <div style={{ width: "95vw", padding: "5px" }}>
       <Skeleton loading={!assets}>
-        <Table
+        <div style={{ padding: 2, textAlign: "center" }}>
+          <h1 style={{ padding: "15px" }}>💰 Minha Conta</h1>
+          {/* <Row justify="center"></Row> */}
+          <InputNumber {...boxProps} addonBefore="PDD" disabled />
+          <br />
+          <br />
+          <InputNumber {...boxProps} addonBefore="ETH" />
+          <br />
+          <br />
+          <Button {...boxProps} type="primary" icon={<UploadOutlined />}>
+            Depositar
+          </Button>
+          <br />
+          <br />
+          <Button {...boxProps} type="secondary" icon={<DownloadOutlined />}>
+            Sacar
+          </Button>
+        </div>
+        {/* <Table
           dataSource={assets}
           columns={columns}
           rowKey={(record) => {
             return record.token_address;
           }}
-        />
+        /> */}
       </Skeleton>
     </div>
   );
 }
-export default MyBalance;
+export default ERC20Balance;
