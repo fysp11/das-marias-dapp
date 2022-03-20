@@ -19,10 +19,10 @@ function OurBank() {
       <Skeleton loading={loading}>
         <Tabs defaultActiveKey="1" centered>
           <TabPane tab="Meu Banco" key="1">
-            <Image width="100%" preview={false} src="mocks/stats1.png" />
+            <Image width="100%" preview={false} src="mocks/stats1.jpg" />
           </TabPane>
           <TabPane tab="Nosso Banco" key="2">
-            <Image width="100%" preview={false} src="mocks/stats2.png" />
+            <Image width="100%" preview={false} src="mocks/stats2.jpg" />
           </TabPane>
         </Tabs>
       </Skeleton>

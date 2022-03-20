@@ -33,14 +33,14 @@ function ERC20Balance() {
         <h1>📰 Projetos</h1>
         <Table
           dataSource={projects}
-          rowSelection={{}}
           columns={columns}
           rowKey={(project) => project.id}
           expandable={{
             expandedRowRender: (project) => {
-              <>
-                <p style={{ margin: 0 }}>Tipo: {project.type}</p>
-                <p style={{ margin: 0 }}>Lugar: {project.place}</p>
+              return <>
+                <p style={{ margin: 0 }}>
+                  <b>Tipo:</b> {project.type} / <b>Local:</b> {project.place}
+                </p>
               </>;
             },
           }}

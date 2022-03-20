@@ -34,3 +34,5 @@ typechain
 /Truffle/data
 ./data/**/*
 data/*
+# Local Netlify folder
+.netlify
