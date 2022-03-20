@@ -6,10 +6,14 @@ import PROJECTS_MOCK from "mocks/ProjectsMock";
 
 function ERC20Balance() {
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   // const { Moralis } = useMoralis();
 
   useEffect(() => {
     setProjects(PROJECTS_MOCK);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, [setProjects]);
 
   const columns = [
@@ -19,29 +23,32 @@ function ERC20Balance() {
   ];
 
   return (
-    <div style={{ width: "95vw", padding: "15px" }}>
-      <Image width="100%" preview={false} src="mocks/vote1.png" />
-      <Image width="100%" preview={false} src="mocks/vote2.png" />
-      <br />
-      <br />
-      <h1>📰 Projetos</h1>
-      <Skeleton loading={!projects}>
+    <div style={{ width: "450px", padding: "15px", textAlign: "center" }}>
+      <h1 style={{ padding: "15px" }}>🌱 Comunidade</h1>
+      <Skeleton loading={loading}>
+        <Image width="100%" preview={false} src="mocks/vote1.png" />
+        <Image width="100%" preview={false} src="mocks/vote2.png" />
+        <br />
+        <br />
+        <h1>📰 Projetos</h1>
         <Table
           dataSource={projects}
-          rowSelection={{}}
           columns={columns}
           rowKey={(project) => project.id}
           expandable={{
             expandedRowRender: (project) => {
-              <>
-                <p style={{ margin: 0 }}>Tipo: {project.type}</p>
-                <p style={{ margin: 0 }}>Lugar: {project.place}</p>
-              </>;
+              return (
+                <>
+                  <p style={{ margin: 0 }}>
+                    <b>Tipo:</b> {project.type} / <b>Local:</b> {project.place}
+                  </p>
+                </>
+              );
             },
           }}
         />
+        <Image width="100%" preview={false} src="mocks/vote3.png" />
       </Skeleton>
-      <Image width="100%" preview={false} src="mocks/vote3.png" />
     </div>
   );
 }

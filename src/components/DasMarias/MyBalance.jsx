@@ -35,10 +35,10 @@ function ERC20Balance() {
   };
 
   return (
-    <div style={{ width: "95vw", padding: "5px" }}>
+    <div style={{ width: "95vw", padding: "5px", textAlign: "center" }}>
+      <h1 style={{ padding: "15px" }}>💰 Minha Conta</h1>
       <Skeleton loading={loading}>
         <div style={{ padding: 2, textAlign: "center" }}>
-          <h1 style={{ padding: "15px" }}>💰 Minha Conta</h1>
           {/* <Row justify="center"></Row> */}
           <InputNumber
             {...boxProps}

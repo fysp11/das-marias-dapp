@@ -84,6 +84,7 @@ const App = () => {
             size="large"
             onClick={showDrawer}
             icon={<MenuFoldOutlined />}
+            disabled={!isAuthenticated}
           >
             Menu
           </Button>
@@ -101,23 +102,26 @@ const App = () => {
         </Header>
 
         <div style={styles.content}>
-          <Switch>
-            <Route path="/community">
-              <Community />
-            </Route>
-            <Route path="/mybalance">
-              <MyBalance />
-            </Route>
-            <Route path="/stats">
-              <OurBank />
-            </Route>
-            <Route path="/">
-              <Redirect to="/mybalance" />
-            </Route>
-            <Route path="/nonauthenticated">
-              <>Please login using the "Authenticate" button</>
-            </Route>
-          </Switch>
+          {!isAuthenticated && <p>Acesse sua carteira para ver seus dados! </p>}
+          {isAuthenticated && (
+            <Switch>
+              <Route path="/community">
+                <Community />
+              </Route>
+              <Route path="/mybalance">
+                <MyBalance />
+              </Route>
+              <Route path="/stats">
+                <OurBank />
+              </Route>
+              <Route path="/">
+                <Redirect to="/mybalance" />
+              </Route>
+              <Route path="/nonauthenticated">
+                <>Please login using the "Authenticate" button</>
+              </Route>
+            </Switch>
+          )}
         </div>
         <Drawer
           title="Menu"
