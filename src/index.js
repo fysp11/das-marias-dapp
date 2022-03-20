@@ -1,7 +1,7 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { MoralisProvider } from "react-moralis";
+// import { MoralisProvider } from "react-moralis";
 import "./index.css";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
@@ -19,9 +19,9 @@ const Application = () => {
     );
   if (isServerInfo)
     return (
-      <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
+      // <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
         <App isServerInfo />
-      </MoralisProvider>
+      // </MoralisProvider>
     );
 };
 

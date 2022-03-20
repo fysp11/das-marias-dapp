@@ -1,50 +1,37 @@
 import { Skeleton, InputNumber, Button, Typography } from "antd";
 import { DownloadOutlined, UploadOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
-import { useApiContract } from "react-moralis";
+import { ethers } from "ethers";
+import { DAI_ABI, DAI_ADDRESS, DAS_MARIAS_ADDRESS, DAS_MARIAS_ABI_DEPOSIT } from "constants/abi";
+import { useWeb3 } from "hooks/useWeb3";
 
 const { Text } = Typography;
-// import { getEllipsisTxt } from "../../helpers/formatters";
 
 function MyBalance() {
-  const contractAddress = "0x8d12a197cb00d4747a1fe03395095ce2a5cc6819";
-
+  
+  const { connect, provider, ready } = useWeb3();
+  
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState(420.11);
   const [inputValue, setInputValue] = useState("");
 
-  const {
-    runContractFunction: runDepositFunction,
-    // data: depositData,
-    // error: depositError,
-    isLoading: isLoadingDeposit,
-    isFetching: isFetchingDeposit,
-  } = useApiContract({
-    address: contractAddress,
-    functionName: "deposit",
-    abi: [
-      {
-        inputs: [
-          {
-            internalType: "uint256",
-            name: "DAIAmount",
-            type: "uint256",
-          },
-        ],
-        name: "deposit",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-    ],
-    params: { DAIAmount: inputValue },
-  });
+  const [daiContract, setDaiContract] = useState(null);
+  const [dasMariasContract, setContract] = useState(null);
 
-  useEffect(() => {
+  useEffect(async () => {
+    connect()
+    if(ready){
+      setDaiContract(new ethers.Contract(DAI_ADDRESS, DAI_ABI, provider));
+      console.log(daiContract)
+
+      setContract(new ethers.Contract(DAS_MARIAS_ADDRESS, DAS_MARIAS_ABI_DEPOSIT, provider));
+      console.log(dasMariasContract);
+    }
+
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, [setLoading]);
+  }, [setLoading, setContract, setDaiContract, ready, provider, connect]);
 
   const boxProps = {
     size: "large",
@@ -55,9 +42,11 @@ function MyBalance() {
   };
 
   const depositValue = () => {
-    runDepositFunction();
-    setBalance(balance + parseFloat(inputValue || 0));
-    setInputValue("");
+    daiContract
+      .approve(DAS_MARIAS_ADDRESS, ethers.utils.parseEther(inputValue.toString()))
+      // .then(() => {
+      //   contract.deposit(inputValue);
+      // });
   };
 
   const withdrawValue = () => {
@@ -66,9 +55,13 @@ function MyBalance() {
   };
 
   const handleChange = (value) => {
+    let valueToSet = "";
     if (!isNaN(value) && value > 0) {
-      setInputValue(value);
+      valueToSet = value;
+    } else {
+      valueToSet = "";
     }
+    setInputValue(valueToSet);
   };
 
   return (
@@ -76,11 +69,10 @@ function MyBalance() {
       <Skeleton loading={loading}>
         <div style={{ padding: 2, textAlign: "center" }}>
           <h1 style={{ padding: "15px" }}>💰 Minha Conta</h1>
-          {/* <Row justify="center"></Row> */}
           <InputNumber
             {...boxProps}
             addonBefore="PDD"
-            value={balance}
+            value={balance * 1.2345}
             precision={2}
             style={{ textAlign: "center" }}
             disabled={true}
@@ -95,7 +87,7 @@ function MyBalance() {
             onInput={handleChange}
           />
           <br />
-          <Text italic>Current: {balance}</Text>
+          <Text italic>Saldo: {balance}</Text>
           <br />
           <br />
           <Button
@@ -103,10 +95,12 @@ function MyBalance() {
             type="primary"
             icon={<UploadOutlined />}
             onClick={depositValue}
-            disabled={!inputValue || isLoadingDeposit || isFetchingDeposit}
+            disabled={!inputValue}
           >
             Depositar
           </Button>
+          {/* {depositData && <pre>{JSON.stringify(depositData, null, 2)}</pre>}
+          {depositError && <pre>{JSON.stringify(depositError, null, 2)}</pre>} */}
           <br />
           <br />
           <Button
@@ -115,22 +109,17 @@ function MyBalance() {
             icon={<DownloadOutlined />}
             onClick={withdrawValue}
             disabled={
+              // isLoadingBalances ||
+              // isFetchingBalances ||
               !inputValue ||
-              isLoadingDeposit ||
-              isFetchingDeposit ||
+              // isLoadingDeposit ||
+              // isFetchingDeposit ||
               balance < inputValue
             }
           >
             Sacar
           </Button>
         </div>
-        {/* <Table
-          dataSource={assets}
-          columns={columns}
-          rowKey={(record) => {
-            return record.token_address;
-          }}
-        /> */}
       </Skeleton>
     </div>
   );

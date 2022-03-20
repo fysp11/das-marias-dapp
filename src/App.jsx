@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,7 +14,9 @@ import "antd/dist/antd.css";
 import "./style.css";
 import Text from "antd/lib/typography/Text";
 import MenuItems from "./components/MenuItems";
+import { WalletInfo } from "components/WalletInfo";
 import { MenuFoldOutlined } from "@ant-design/icons";
+import { useWeb3, Web3Provider } from "./hooks/useWeb3";
 
 import MyBalance from "components/DasMarias/MyBalance";
 import Community from "components/DasMarias/Community";
@@ -54,17 +55,20 @@ const styles = {
   },
 };
 const App = () => {
-  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
-    useMoralis();
+  const { connect, address } = useWeb3();
 
   const [drawerVisibility, setDrawerVisibility] = useState(false);
 
   useEffect(() => {
-    const connectorId = window.localStorage.getItem("connectorId");
-    if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading)
-      enableWeb3({ provider: connectorId });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, isWeb3Enabled]);
+    connect();
+    // const connectorId = window.localStorage.getItem("connectorId");
+    // if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading)
+    //   enableWeb3({ provider: connectorId });
+  }, []);
+
+  function handleWalletConnection() {
+		connect();
+	}
 
   const showDrawer = () => {
     setDrawerVisibility(true);
@@ -74,68 +78,74 @@ const App = () => {
   };
 
   return (
-    <Layout style={{ height: "100vh", overflow: "auto" }}>
-      <Router>
-        <Header style={styles.header}>
-          {/* <Logo /> */}
-          {/* <MenuItems /> */}
-          <Button
-            type="primary"
-            size="large"
-            onClick={showDrawer}
-            icon={<MenuFoldOutlined />}
-            disabled={!isAuthenticated}
-          >
-            Menu
-          </Button>
-          <div style={styles.headerRight}>
-            {/* <Chains /> */}
-            {/* <TokenPrice
-              address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
-              chain="eth"
-              image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
-              size="40px"
-            />
-            <NativeBalance /> */}
-            <Account />
+    <Web3Provider>
+      <Layout style={{ height: "100vh", overflow: "auto" }}>
+        <Router>
+          <Header style={styles.header}>
+            {/* <Logo /> */}
+            {/* <MenuItems /> */}
+            <Button
+              type="primary"
+              size="large"
+              onClick={showDrawer}
+              icon={<MenuFoldOutlined />}
+              // disabled={!isAuthenticated}
+              >
+              Menu
+            </Button>
+            <div style={styles.headerRight}>
+              {/* <Chains /> */}
+              {/* <TokenPrice
+                address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
+                chain="eth"
+                image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
+                size="40px"
+                />
+              <NativeBalance /> */}
+              {/* <Account /> */}
+              <WalletInfo
+                handleWalletConnection={handleWalletConnection}
+                address={address}
+              />
+            </div>
+          </Header>
+          <div style={styles.content}>
+            {/* {!isAuthenticated && <p>Acesse sua carteira para ver seus dados! </p>} */}
+            {true && (
+              <Switch>
+                <Route path="/community">
+                  <Community />
+                </Route>
+                <Route path="/mybalance">
+                  <MyBalance />
+                </Route>
+                <Route path="/stats">
+                  <OurBank />
+                </Route>
+                <Route path="/">
+                  <Redirect to="/mybalance" />
+                </Route>
+                <Route path="/nonauthenticated">
+                  <>Please login using the "Authenticate" button</>
+                </Route>
+              </Switch>
+            )}
           </div>
-        </Header>
-        <div style={styles.content}>
-          {!isAuthenticated && <p>Acesse sua carteira para ver seus dados! </p>}
-          {isAuthenticated && (
-            <Switch>
-              <Route path="/community">
-                <Community />
-              </Route>
-              <Route path="/mybalance">
-                <MyBalance />
-              </Route>
-              <Route path="/stats">
-                <OurBank />
-              </Route>
-              <Route path="/">
-                <Redirect to="/mybalance" />
-              </Route>
-              <Route path="/nonauthenticated">
-                <>Please login using the "Authenticate" button</>
-              </Route>
-            </Switch>
-          )}
-        </div>
-        <Drawer
-          title="Menu"
-          placement="left"
-          onClose={onClose}
-          visible={drawerVisibility}
-          width={220}
-        >
-          <MenuItems onSelect={onClose} />
-        </Drawer>
-      </Router>
-      <Footer style={{ textAlign: "center" }}>
-        <Text style={{ display: "block" }}>Semeando o presente :)</Text>
-      </Footer>
-    </Layout>
+          <Drawer
+            title="Menu"
+            placement="left"
+            onClose={onClose}
+            visible={drawerVisibility}
+            width={220}
+            >
+            <MenuItems onSelect={onClose} />
+          </Drawer>
+        </Router>
+        <Footer style={{ textAlign: "center" }}>
+          <Text style={{ display: "block" }}>Semeando o presente :)</Text>
+        </Footer>
+      </Layout>
+    </Web3Provider>
   );
 };
 
