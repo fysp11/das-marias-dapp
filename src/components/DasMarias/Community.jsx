@@ -19,7 +19,7 @@ function ERC20Balance() {
   ];
 
   return (
-    <div style={{ width: "95vw", padding: "15px" }}>
+    <div style={{ width: "450px", padding: "15px", textAlign: "center" }}>
       <Image width="100%" preview={false} src="mocks/vote1.png" />
       <Image width="100%" preview={false} src="mocks/vote2.png" />
       <br />
