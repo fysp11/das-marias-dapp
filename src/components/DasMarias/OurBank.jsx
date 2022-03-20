@@ -15,6 +15,7 @@ function OurBank() {
 
   return (
     <div style={{ width: "450px", padding: "15px", textAlign: "center" }}>
+      <h1 style={{ padding: "15px" }}>🔎 Stats</h1>
       <Skeleton loading={loading}>
         <Tabs defaultActiveKey="1" centered>
           <TabPane tab="Meu Banco" key="1">

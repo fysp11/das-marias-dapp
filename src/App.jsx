@@ -84,6 +84,7 @@ const App = () => {
             size="large"
             onClick={showDrawer}
             icon={<MenuFoldOutlined />}
+            disabled={!isAuthenticated}
           >
             Menu
           </Button>
@@ -101,6 +102,8 @@ const App = () => {
         </Header>
 
         <div style={styles.content}>
+        {!isAuthenticated && <p>Acesse sua carteira para ver seus dados! </p>}
+          {isAuthenticated && (
           <Switch>
             <Route path="/community">
               <Community />
@@ -118,6 +121,7 @@ const App = () => {
               <>Please login using the "Authenticate" button</>
             </Route>
           </Switch>
+          )}
         </div>
         <Drawer
           title="Menu"
