@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import {
   BrowserRouter as Router,
@@ -9,13 +9,18 @@ import {
 import Account from "components/Account/Account";
 // import Chains from "components/Chains";
 // import TokenPrice from "components/TokenPrice";
-import { Layout } from "antd";
+import { Layout, Button, Drawer } from "antd";
 import "antd/dist/antd.css";
 // import NativeBalance from "components/NativeBalance";
 import "./style.css";
 import Text from "antd/lib/typography/Text";
 import MenuItems from "./components/MenuItems";
+import { MenuFoldOutlined } from "@ant-design/icons";
+
 import MyBalance from "components/DasMarias/MyBalance";
+import Community from "components/DasMarias/Community";
+import OurBank from "components/DasMarias/OurBank";
+
 const { Header, Footer } = Layout;
 
 const styles = {
@@ -52,6 +57,8 @@ const App = () => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
 
+  const [drawerVisibility, setDrawerVisibility] = useState(false);
+
   useEffect(() => {
     const connectorId = window.localStorage.getItem("connectorId");
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading)
@@ -59,12 +66,27 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, isWeb3Enabled]);
 
+  const showDrawer = () => {
+    setDrawerVisibility(true);
+  };
+  const onClose = () => {
+    setDrawerVisibility(false);
+  };
+
   return (
     <Layout style={{ height: "100vh", overflow: "auto" }}>
       <Router>
         <Header style={styles.header}>
           {/* <Logo /> */}
-          <MenuItems />
+          {/* <MenuItems /> */}
+          <Button
+            type="primary"
+            size="large"
+            onClick={showDrawer}
+            icon={<MenuFoldOutlined />}
+          >
+            Menu
+          </Button>
           <div style={styles.headerRight}>
             {/* <Chains /> */}
             {/* <TokenPrice
@@ -81,13 +103,13 @@ const App = () => {
         <div style={styles.content}>
           <Switch>
             <Route path="/community">
-              <MyBalance />
+              <Community />
             </Route>
             <Route path="/mybalance">
               <MyBalance />
             </Route>
-            <Route path="/ourbank">
-              <MyBalance />
+            <Route path="/stats">
+              <OurBank />
             </Route>
             <Route path="/">
               <Redirect to="/mybalance" />
@@ -97,6 +119,16 @@ const App = () => {
             </Route>
           </Switch>
         </div>
+        <Drawer
+          title="Menu"
+          placement="left"
+          onClose={onClose}
+          visible={drawerVisibility}
+          // style={{ maxWidth: "50vw" }}
+          width={220}
+        >
+          <MenuItems onSelect={onClose} />
+        </Drawer>
       </Router>
       <Footer style={{ textAlign: "center" }}>
         <Text style={{ display: "block" }}>Semeando o presente :)</Text>

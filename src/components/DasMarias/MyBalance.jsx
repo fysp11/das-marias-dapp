@@ -34,7 +34,7 @@ function ERC20Balance(props) {
           <InputNumber {...boxProps} addonBefore="PDD" disabled />
           <br />
           <br />
-          <InputNumber {...boxProps} addonBefore="ETH" />
+          <InputNumber {...boxProps} addonBefore="DAI" />
           <br />
           <br />
           <Button {...boxProps} type="primary" icon={<UploadOutlined />}>
