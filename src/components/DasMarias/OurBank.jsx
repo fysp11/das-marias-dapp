@@ -1,6 +1,6 @@
 // import { useERC20Balances } from "react-moralis";
 import { Tabs, Image, Skeleton } from "antd";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 const { TabPane } = Tabs;
 
@@ -11,7 +11,7 @@ function OurBank() {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, [setLoading])
+  }, [setLoading]);
 
   return (
     <div style={{ width: "450px", padding: "15px", textAlign: "center" }}>
