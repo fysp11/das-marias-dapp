@@ -67,8 +67,8 @@ const App = () => {
   }, []);
 
   function handleWalletConnection() {
-		connect();
-	}
+    connect();
+  }
 
   const showDrawer = () => {
     setDrawerVisibility(true);
@@ -90,7 +90,7 @@ const App = () => {
               onClick={showDrawer}
               icon={<MenuFoldOutlined />}
               // disabled={!isAuthenticated}
-              >
+            >
               Menu
             </Button>
             <div style={styles.headerRight}>
@@ -137,7 +137,7 @@ const App = () => {
             onClose={onClose}
             visible={drawerVisibility}
             width={220}
-            >
+          >
             <MenuItems onSelect={onClose} />
           </Drawer>
         </Router>

@@ -2,15 +2,19 @@ import { Skeleton, InputNumber, Button, Typography } from "antd";
 import { DownloadOutlined, UploadOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { DAI_ABI, DAI_ADDRESS, DAS_MARIAS_ADDRESS, DAS_MARIAS_ABI_DEPOSIT } from "constants/abi";
+import {
+  DAI_ABI,
+  DAI_ADDRESS,
+  DAS_MARIAS_ADDRESS,
+  DAS_MARIAS_ABI_DEPOSIT,
+} from "constants/abi";
 import { useWeb3 } from "hooks/useWeb3";
 
 const { Text } = Typography;
 
 function MyBalance() {
-  
   const { connect, provider, ready } = useWeb3();
-  
+
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState(420.11);
   const [inputValue, setInputValue] = useState("");
@@ -19,12 +23,18 @@ function MyBalance() {
   const [dasMariasContract, setContract] = useState(null);
 
   useEffect(async () => {
-    connect()
-    if(ready){
+    connect();
+    if (ready) {
       setDaiContract(new ethers.Contract(DAI_ADDRESS, DAI_ABI, provider));
-      console.log(daiContract)
+      console.log(daiContract);
 
-      setContract(new ethers.Contract(DAS_MARIAS_ADDRESS, DAS_MARIAS_ABI_DEPOSIT, provider));
+      setContract(
+        new ethers.Contract(
+          DAS_MARIAS_ADDRESS,
+          DAS_MARIAS_ABI_DEPOSIT,
+          provider,
+        ),
+      );
       console.log(dasMariasContract);
     }
 
@@ -42,11 +52,13 @@ function MyBalance() {
   };
 
   const depositValue = () => {
-    daiContract
-      .approve(DAS_MARIAS_ADDRESS, ethers.utils.parseEther(inputValue.toString()))
-      // .then(() => {
-      //   contract.deposit(inputValue);
-      // });
+    daiContract.approve(
+      DAS_MARIAS_ADDRESS,
+      ethers.utils.parseEther(inputValue.toString()),
+    );
+    // .then(() => {
+    //   contract.deposit(inputValue);
+    // });
   };
 
   const withdrawValue = () => {

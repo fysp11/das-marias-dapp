@@ -1,4 +1,4 @@
 {
   "editor.formatOnSave": true,
-  "solidity.compileUsingRemoteVersion" : "latest"
+  "solidity.compileUsingRemoteVersion": "latest"
 }
