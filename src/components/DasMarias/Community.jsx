@@ -37,11 +37,13 @@ function ERC20Balance() {
           rowKey={(project) => project.id}
           expandable={{
             expandedRowRender: (project) => {
-              return <>
-                <p style={{ margin: 0 }}>
-                  <b>Tipo:</b> {project.type} / <b>Local:</b> {project.place}
-                </p>
-              </>;
+              return (
+                <>
+                  <p style={{ margin: 0 }}>
+                    <b>Tipo:</b> {project.type} / <b>Local:</b> {project.place}
+                  </p>
+                </>
+              );
             },
           }}
         />
