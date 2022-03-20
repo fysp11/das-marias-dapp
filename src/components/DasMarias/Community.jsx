@@ -31,20 +31,20 @@ function ERC20Balance() {
         <br />
         <br />
         <h1>📰 Projetos</h1>
-          <Table
-            dataSource={projects}
-            rowSelection={{}}
-            columns={columns}
-            rowKey={(project) => project.id}
-            expandable={{
-              expandedRowRender: (project) => {
-                <>
-                  <p style={{ margin: 0 }}>Tipo: {project.type}</p>
-                  <p style={{ margin: 0 }}>Lugar: {project.place}</p>
-                </>;
-              },
-            }}
-            />
+        <Table
+          dataSource={projects}
+          rowSelection={{}}
+          columns={columns}
+          rowKey={(project) => project.id}
+          expandable={{
+            expandedRowRender: (project) => {
+              <>
+                <p style={{ margin: 0 }}>Tipo: {project.type}</p>
+                <p style={{ margin: 0 }}>Lugar: {project.place}</p>
+              </>;
+            },
+          }}
+        />
         <Image width="100%" preview={false} src="mocks/vote3.png" />
       </Skeleton>
     </div>

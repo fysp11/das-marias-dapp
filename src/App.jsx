@@ -102,25 +102,25 @@ const App = () => {
         </Header>
 
         <div style={styles.content}>
-        {!isAuthenticated && <p>Acesse sua carteira para ver seus dados! </p>}
+          {!isAuthenticated && <p>Acesse sua carteira para ver seus dados! </p>}
           {isAuthenticated && (
-          <Switch>
-            <Route path="/community">
-              <Community />
-            </Route>
-            <Route path="/mybalance">
-              <MyBalance />
-            </Route>
-            <Route path="/stats">
-              <OurBank />
-            </Route>
-            <Route path="/">
-              <Redirect to="/mybalance" />
-            </Route>
-            <Route path="/nonauthenticated">
-              <>Please login using the "Authenticate" button</>
-            </Route>
-          </Switch>
+            <Switch>
+              <Route path="/community">
+                <Community />
+              </Route>
+              <Route path="/mybalance">
+                <MyBalance />
+              </Route>
+              <Route path="/stats">
+                <OurBank />
+              </Route>
+              <Route path="/">
+                <Redirect to="/mybalance" />
+              </Route>
+              <Route path="/nonauthenticated">
+                <>Please login using the "Authenticate" button</>
+              </Route>
+            </Switch>
           )}
         </div>
         <Drawer
