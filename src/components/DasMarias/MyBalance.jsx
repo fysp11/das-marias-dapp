@@ -1,14 +1,44 @@
 import { Skeleton, InputNumber, Button, Typography } from "antd";
 import { DownloadOutlined, UploadOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
+import { useApiContract } from "react-moralis";
 
 const { Text } = Typography;
 // import { getEllipsisTxt } from "../../helpers/formatters";
 
-function ERC20Balance() {
+function MyBalance() {
+  const contractAddress = "0x8d12a197cb00d4747a1fe03395095ce2a5cc6819";
+
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState(420.11);
   const [inputValue, setInputValue] = useState("");
+
+  const {
+    runContractFunction: runDepositFunction,
+    // data: depositData,
+    // error: depositError,
+    isLoading: isLoadingDeposit,
+    isFetching: isFetchingDeposit,
+  } = useApiContract({
+    address: contractAddress,
+    functionName: "deposit",
+    abi: [
+      {
+        inputs: [
+          {
+            internalType: "uint256",
+            name: "DAIAmount",
+            type: "uint256",
+          },
+        ],
+        name: "deposit",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
+    params: { DAIAmount: inputValue },
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -25,6 +55,7 @@ function ERC20Balance() {
   };
 
   const depositValue = () => {
+    runDepositFunction();
     setBalance(balance + parseFloat(inputValue || 0));
     setInputValue("");
   };
@@ -32,6 +63,12 @@ function ERC20Balance() {
   const withdrawValue = () => {
     setBalance(balance - parseFloat(inputValue || 0));
     setInputValue("");
+  };
+
+  const handleChange = (value) => {
+    if (!isNaN(value) && value > 0) {
+      setInputValue(value);
+    }
   };
 
   return (
@@ -43,10 +80,10 @@ function ERC20Balance() {
           <InputNumber
             {...boxProps}
             addonBefore="PDD"
-            value={balance * 1.2345}
+            value={balance}
             precision={2}
             style={{ textAlign: "center" }}
-            disabled
+            disabled={true}
           />
           <br />
           <br />
@@ -55,7 +92,7 @@ function ERC20Balance() {
             autoFocus={true}
             addonBefore="DAI"
             value={inputValue}
-            onInput={(value) => setInputValue(value)}
+            onInput={handleChange}
           />
           <br />
           <Text italic>Current: {balance}</Text>
@@ -66,7 +103,7 @@ function ERC20Balance() {
             type="primary"
             icon={<UploadOutlined />}
             onClick={depositValue}
-            disabled={!inputValue}
+            disabled={!inputValue || isLoadingDeposit || isFetchingDeposit}
           >
             Depositar
           </Button>
@@ -77,7 +114,12 @@ function ERC20Balance() {
             type="secondary"
             icon={<DownloadOutlined />}
             onClick={withdrawValue}
-            disabled={!inputValue || balance < inputValue}
+            disabled={
+              !inputValue ||
+              isLoadingDeposit ||
+              isFetchingDeposit ||
+              balance < inputValue
+            }
           >
             Sacar
           </Button>
@@ -93,4 +135,4 @@ function ERC20Balance() {
     </div>
   );
 }
-export default ERC20Balance;
+export default MyBalance;

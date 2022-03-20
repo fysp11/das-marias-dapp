@@ -1,5 +1,5 @@
 import { useMoralis } from "react-moralis";
-import { getEllipsisTxt } from "helpers/formatters";
+// import { getEllipsisTxt } from "helpers/formatters";
 import Blockie from "../Blockie";
 import { Button, Card, Modal } from "antd";
 import { useState } from "react";
@@ -122,9 +122,6 @@ function Account() {
         Hi
       </button> */}
       <div style={styles.account} onClick={() => setIsModalVisible(true)}>
-        <p style={{ marginRight: "5px", ...styles.text }}>
-          {getEllipsisTxt(account, 6)}
-        </p>
         <Blockie currentWallet scale={3} />
       </div>
       <Modal
