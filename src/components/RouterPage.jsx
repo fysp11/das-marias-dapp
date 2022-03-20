@@ -1,11 +1,12 @@
 function RouterPage({ open, onOpenChange }) {
-  return <Router>
-    <Drawer
-      // sidebar={sidebar}
-      open={open}
-      onOpenChange={ onOpenChange }
-      sidebarStyle={{ backgroundColor: "white", width: "60%",}}
-    >
+  return (
+    <Router>
+      <Drawer
+        // sidebar={sidebar}
+        open={open}
+        onOpenChange={onOpenChange}
+        sidebarStyle={{ backgroundColor: "white", width: "60%" }}
+      >
         <Route path="/" exact component={IndexPage} />
         <Route path="/programa" exact component={AddPage} />
         <Switch>
@@ -13,6 +14,7 @@ function RouterPage({ open, onOpenChange }) {
           <Route path="/add" exact component={AddPage} />
           <Route path="/search" exact component={SearchPage} />
         </Switch>
-    </Drawer>
-  </Router>
+      </Drawer>
+    </Router>
+  );
 }
