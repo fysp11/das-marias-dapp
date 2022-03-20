@@ -2,20 +2,21 @@ import { useLocation } from "react-router";
 import { Menu } from "antd";
 import { NavLink } from "react-router-dom";
 
-function MenuItems() {
+function MenuItems({ onSelect }) {
   const { pathname } = useLocation();
 
   return (
     <Menu
       theme="light"
-      mode="horizontal"
+      mode="vertical"
       style={{
-        display: "flex",
+        // display: "flex",
         fontSize: "17px",
         fontWeight: "500",
         width: "100%",
-        justifyContent: "center",
+        // justifyContent: "center",
       }}
+      onSelect={onSelect}
       defaultSelectedKeys={[pathname]}
     >
       <Menu.Item key="community">
@@ -24,8 +25,8 @@ function MenuItems() {
       <Menu.Item key="mybank">
         <NavLink to="/mybank">💰 Minha Conta</NavLink>
       </Menu.Item>
-      <Menu.Item key="/erc20balance">
-        <NavLink to="/erc20balance">🔎 Nosso Banco</NavLink>
+      <Menu.Item key="/stats">
+        <NavLink to="/stats">🔎 Stats</NavLink>
       </Menu.Item>
     </Menu>
   );

@@ -1,64 +1,47 @@
-import { useMoralis, useERC20Balances } from "react-moralis";
-import { Skeleton, Table } from "antd";
-import { getEllipsisTxt } from "../../helpers/formatters";
+// import { useERC20Balances } from "react-moralis";
+import { Skeleton, Table, Image } from "antd";
+import { useEffect, useState } from "react";
 
-function ERC20Balance(props) {
-  const { data: assets } = useERC20Balances(props);
-  const { Moralis } = useMoralis();
+import PROJECTS_MOCK from "mocks/ProjectsMock";
+
+function ERC20Balance() {
+  const [projects, setProjects] = useState([]);
+  // const { Moralis } = useMoralis();
+
+  useEffect(() => {
+    setProjects(PROJECTS_MOCK);
+  }, [setProjects]);
 
   const columns = [
-    {
-      title: "",
-      dataIndex: "logo",
-      key: "logo",
-      render: (logo) => (
-        <img
-          src={logo || "https://etherscan.io/images/main/empty-token.png"}
-          alt="nologo"
-          width="28px"
-          height="28px"
-        />
-      ),
-    },
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      render: (name) => name,
-    },
-    {
-      title: "Symbol",
-      dataIndex: "symbol",
-      key: "symbol",
-      render: (symbol) => symbol,
-    },
-    {
-      title: "Balance",
-      dataIndex: "balance",
-      key: "balance",
-      render: (value, item) =>
-        parseFloat(Moralis?.Units?.FromWei(value, item.decimals)).toFixed(6),
-    },
-    {
-      title: "Address",
-      dataIndex: "token_address",
-      key: "token_address",
-      render: (address) => getEllipsisTxt(address, 5),
-    },
+    { title: "Name", dataIndex: "name", key: "name" },
+    { title: "Status", dataIndex: "status", key: "status" },
+    Table.EXPAND_COLUMN,
   ];
 
   return (
-    <div style={{ width: "65vw", padding: "15px" }}>
-      <h1>💰Token Balances</h1>
-      <Skeleton loading={!assets}>
+    <div style={{ width: "95vw", padding: "15px" }}>
+      <Image width="100%" preview={false} src="mocks/vote1.png" />
+      <Image width="100%" preview={false} src="mocks/vote2.png" />
+      <br />
+      <br />
+      <h1>📰 Projetos</h1>
+      <Skeleton loading={!projects}>
         <Table
-          dataSource={assets}
+          dataSource={projects}
+          rowSelection={{}}
           columns={columns}
-          rowKey={(record) => {
-            return record.token_address;
+          rowKey={(project) => project.id}
+          expandable={{
+            expandedRowRender: (project) => {
+              <>
+                <p style={{ margin: 0 }}>Tipo: {project.type}</p>
+                <p style={{ margin: 0 }}>Lugar: {project.place}</p>
+              </>;
+            },
           }}
         />
       </Skeleton>
+      <Image width="100%" preview={false} src="mocks/vote3.png" />
     </div>
   );
 }
